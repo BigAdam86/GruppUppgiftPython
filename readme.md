@@ -15,6 +15,6 @@
 
 ### Known Issues
 * Some crashes related to removal of asteroid and debris when hit.
-* Some exit code 1 error when quitting the game.
+* Some exit code 1 error when quitting the game. (pygame.error: display Surface quit)
 
 ### Contact

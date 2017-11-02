@@ -5,7 +5,7 @@ from point import Point
 from circle import Circle
 
 
-def getRandomAss():
+def get_random_as():
     asteroid = [ Point(10,30), Point(25,25), Point(33,11), Point(35,-7), Point(21,-13), Point(13,-29), Point(-13,-31), Point(-21,-28), Point(-28,-22), Point(-34,-6), Point(-32,14), Point(-29,21), Point(-23,24), Point(-10,30)]
     rndShape = []
     for p in asteroid:
@@ -14,7 +14,7 @@ def getRandomAss():
         rndShape.append(p + Point(x,y))
     return rndShape
 
-def getRandomDebris():
+def get_random_debris():
     asteroid = [Point(0,10), Point(10,15), Point(18,9), Point(13,3), Point(17,-5), Point(5,-12), Point(-10,-12), Point(-16,-7), Point(-16,8), Point(-9,14)]
     rndShape = []
     for p in asteroid:
@@ -22,6 +22,9 @@ def getRandomDebris():
         y = random.randrange(-10,10)
         rndShape.append(p + Point(x,y))
     return rndShape
+
+        # Large asteroid: [Point(10,30), Point(25,25), Point(33,11), Point(35,-7), Point(21,-13), Point(13,-29), Point(-13,-31), Point(-21,-28), Point(-28,-22), Point(-34,-6), Point(-32,14), Point(-29,21), Point(-15,9), Point(-23,24), Point(-10,30)]
+        # Small asteroid: [Point(0,10), Point(10,15), Point(18,9), Point(13,3), Point(17,-5), Point(5,-12), Point(-10,-12), Point(-16,-7), Point(-16,8), Point(-9,14)]
 
 class Ship (Polygon):
     def __init__(self):
@@ -35,9 +38,7 @@ class Ship (Polygon):
 
 class Asteroid (Polygon):
     def __init__(self, x,y):
-        self.points = getRandomAss()
-        # Large asteroid: [Point(10,30), Point(25,25), Point(33,11), Point(35,-7), Point(21,-13), Point(13,-29), Point(-13,-31), Point(-21,-28), Point(-28,-22), Point(-34,-6), Point(-32,14), Point(-29,21), Point(-15,9), Point(-23,24), Point(-10,30)]
-        # Small asteroid: [Point(0,10), Point(10,15), Point(18,9), Point(13,3), Point(17,-5), Point(5,-12), Point(-10,-12), Point(-16,-7), Point(-16,8), Point(-9,14)]
+        self.points = get_random_as()
         self.position = Point(x,y)
         self.rotation = random.randrange(0, 359, 15)
         self.pull = Point(round(random.uniform(-1, 1),1),round(random.uniform(-1, 1),1))
@@ -47,7 +48,7 @@ class Asteroid (Polygon):
 
 class Debris (Asteroid):
     def __init__(self,position):
-        self.points = getRandomDebris()
+        self.points = get_random_debris()
         self.position = position
         self.rotation = random.randrange(0, 359, 15)
         self.pull = Point(round(random.uniform(-1, 1), 1), round(random.uniform(-1, 1), 1))

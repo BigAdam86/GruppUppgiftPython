@@ -28,7 +28,6 @@ class Asteroids(Game):
 
     def handle_input(self):
         super().handle_input()
-        pygame.key.set_repeat()
         keys_pressed = pygame.key.get_pressed()
         if keys_pressed[K_LEFT] and self.ship:
             self.ship.rotate(-1)
@@ -39,11 +38,15 @@ class Asteroids(Game):
         if keys_pressed[K_DOWN] and self.ship:
             self.ship.accelerate(0) #TODO: Set to (0) to stop the ship instantly with down-key AKA EASYMODE.
         if keys_pressed[K_SPACE] and self.ship:
-            if len(self.bullets) >= 15:
+            if len(self.bullets) >= 10:
                 del self.bullets[0]
-                self.bullets.append(Bullet(self.ship.position, self.ship.rotation, self.frame))
-            else:
-                self.bullets.append(Bullet(self.ship.position, self.ship.rotation, self.frame))
+                self.bullets.append(Bullet(self.ship.position, self.ship.rotation, pygame.time.get_ticks()))
+            elif len(self.bullets) == 0:
+                self.bullets.append(Bullet(self.ship.position, self.ship.rotation, pygame.time.get_ticks()))
+            elif self.bullets[len(self.bullets)-1].ttl > 3000:
+                self.bullets.append(Bullet(self.ship.position, self.ship.rotation, pygame.time.get_ticks()))
+
+
     """         if len(self.bullets) == 0:
                 self.bullets.append(Bullet(self.ship.position, self.ship.rotation, self.frame))
             else:
