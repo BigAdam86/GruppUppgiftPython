@@ -38,25 +38,12 @@ class Asteroids(Game):
         if keys_pressed[K_DOWN] and self.ship:
             self.ship.accelerate(0) #TODO: Set to (0) to stop the ship instantly with down-key AKA EASYMODE.
         if keys_pressed[K_SPACE] and self.ship:
-            if len(self.bullets) >= 10:
-                del self.bullets[0]
-                self.bullets.append(Bullet(self.ship.position, self.ship.rotation, pygame.time.get_ticks()))
-            elif len(self.bullets) == 0:
-                self.bullets.append(Bullet(self.ship.position, self.ship.rotation, pygame.time.get_ticks()))
-            elif self.bullets[len(self.bullets)-1].ttl > 3000:
-                self.bullets.append(Bullet(self.ship.position, self.ship.rotation, pygame.time.get_ticks()))
-
-
-    """         if len(self.bullets) == 0:
-                self.bullets.append(Bullet(self.ship.position, self.ship.rotation, self.frame))
+            # makes it possible to only fire one bullet every n=5 frame
+            if len(self.bullets) > 0 and self.frame - self.bullets[len(self.bullets) - 1].ttl < 50:
+                pass
             else:
-                if self.bullets[len(self.bullets)-1].ttl > 50:
-                    self.bullets.append(Bullet(self.ship.position, self.ship.rotation, self.frame))
-
-            # Försöker få delay i bullet interval
-             """
-
-
+                self.bullets.append(Bullet(self.ship.position, self.ship.rotation, self.frame))
+            pass
 
     def update_simulation(self):
         """
@@ -72,7 +59,7 @@ class Asteroids(Game):
             star.update( self.width, self.height )
         for bullet in self.bullets:
             bullet.update( self.width, self.height )
-            if bullet.ttl + 30 < self.frame:
+            if bullet.ttl < self.frame:
                 self.bullets.pop(self.bullets.index(bullet))
         self.handle_collisions()
 
@@ -110,6 +97,7 @@ class Asteroids(Game):
                             self.asteroids.append(Debris(asteroid.position))
                             self.asteroids.append(Debris(asteroid.position))
                             self.asteroids.append(Debris(asteroid.position))
+
 
     def death_screen(self):
         game = Asteroids("Asteroids", 640, 480)

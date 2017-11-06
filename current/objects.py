@@ -63,8 +63,8 @@ class Bullet (Circle):
         self.angular_velocity = 0
         self.radius = 1
         self.linewidth = 1
-        self.accelerate(8)
-        self.ttl = born
+        self.accelerate(5)
+        self.ttl = born + 60
 
 
 class Star (Circle):
