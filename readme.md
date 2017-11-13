@@ -9,7 +9,7 @@
 **0.7** - Bullets?
 **0.8** - Timer
 **0.9** - You now have three lives
-**0.10** - *Current build*
+**0.10** - *Current build*  
 
 ### Features
 Well, it's Asteroids...
