@@ -24,6 +24,7 @@ class Asteroids(Game):
         for i in range(25):                # Change for different amount of background Stars
             self.stars.append(Star())
         self.bullets = []   # A list of all bullets
+        self.lives = 3 # Set the amounts of lifes
         self.score = 0 # Possible score variable
 
     def handle_input(self):
@@ -46,9 +47,6 @@ class Asteroids(Game):
             pass
 
     def update_simulation(self):
-        """
-        update_simulation() causes all objects in the game to update themselves
-        """
         super().update_simulation()
 
         if self.ship:
@@ -64,20 +62,13 @@ class Asteroids(Game):
         self.handle_collisions()
 
     def render_objects(self):
-        """
-        render_objects() causes all objects in the game to draw themselves onto the screen
-        """
         super().render_objects()
-        # Render the ship:
         if self.ship:
             self.ship.draw( self.screen )
-        # Render all the stars, if any:
         for star in self.stars:
             star.draw( self.screen )
-        # Render all the asteroids, if any:
         for asteroid in self.asteroids:
             asteroid.draw( self.screen )
-        # Render all the bullet, if any:
         for bullet in self.bullets:
             bullet.draw( self.screen )
 
@@ -86,6 +77,7 @@ class Asteroids(Game):
         if self.ship:
             for asteroid in self.asteroids:
                 if asteroid.collide(self.ship):
+                    #if player.lifes > 0 else retry
                     self.death_screen()
                 for bullet in self.bullets:
                     if asteroid.contains(bullet.position):
@@ -97,7 +89,7 @@ class Asteroids(Game):
                             self.asteroids.append(Debris(asteroid.position))
                             self.asteroids.append(Debris(asteroid.position))
                             self.asteroids.append(Debris(asteroid.position))
-
+    #next life function
 
     def death_screen(self):
         game = Asteroids("Asteroids", 640, 480)
@@ -108,6 +100,7 @@ class Asteroids(Game):
         self.screen.blit(label2, (self.width * 0.35, self.height * 0.40))
         self.screen.blit(score, (self.width * 0.4, self.height * 0.5))
         pygame.display.update()
+        #make infinite loop for selecting try again or quit
         pygame.time.wait(2000)
         pygame.time.wait(500)
         game.runGame()
