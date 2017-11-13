@@ -31,10 +31,9 @@ class Ship (Polygon):
         self.pull = Point(0,0)
         self.angular_velocity = 0.0
         self.jumpProtection = False
-        self.lives = 3
         self.spawnProtection = False
         self.spawnProtectionTime = 0
-        self.spawnProtectionDuration = 3
+        self.spawnProtectionDuration = 1.5
         self.jump_delay = 2
         self.jump_timer = 0
         self.jumpProtectionDuration = 0.25

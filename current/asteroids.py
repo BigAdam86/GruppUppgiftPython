@@ -15,7 +15,7 @@ from objects import Debris
 
 class Asteroids(Game):
 
-    def __init__(self, name, width, height):
+    def __init__(self, name, width, height, lives, score):
         super().__init__( name, width, height )
         self.width = width
         self.height = height
@@ -27,8 +27,8 @@ class Asteroids(Game):
         for i in range(25):                # Change for different amount of background Stars
             self.stars.append(Star())
         self.bullets = []   # A list of all bullets
-        self.score = 0 # Possible score variable
-
+        self.score = score # Possible score variable
+        self.lives = lives
 
     def handle_input(self):
         super().handle_input()
@@ -62,9 +62,7 @@ class Asteroids(Game):
 
 
     def update_simulation(self):
-        """
-        update_simulation() causes all objects in the game to update themselves
-        """
+
         super().update_simulation()
         currentTime = time.time()           #Saves current timestamp for the update
 
@@ -85,9 +83,7 @@ class Asteroids(Game):
         self.handle_collisions()
 
     def render_objects(self):
-        """
-        render_objects() causes all objects in the game to draw themselves onto the screen
-        """
+
         super().render_objects()
         # Render the ship:
         if self.ship:
@@ -101,18 +97,21 @@ class Asteroids(Game):
         # Render all the bullet, if any:
         for bullet in self.bullets:
             bullet.draw( self.screen )
-
+        label = self.smallfont.render("Lives:" + str(self.lives), 1, (255, 255, 255))
+        score = self.smallfont.render("Score:" + str(self.score), 1, (255, 255, 255))
+        self.screen.blit(label, (1,1))
+        self.screen.blit(score, (self.width - 150, 1))
 
     def handle_collisions(self):
         if self.ship:
             for asteroid in self.asteroids:
                 if asteroid.collide(self.ship) and self.ship.spawnProtection == False and self.ship.jumpProtection == False:        #Checks if player is protected when colliding
-                    self.ship.lives =- 1                #NOT WORKING YET, Player has 3 lives. Plan is to do remove a life and gain 2-3 seconds immunity when losing a life.
-                    if self.ship.lives < 0:             #If no more lives yet, > player dead
+                    self.lives -= 1
+                    if self.lives <= 0:  # If no more lives yet, > player dead
+                        self.game_over()
+                        break
+                    else:
                         self.death_screen()
-                    elif self.ship.lives > 1:
-                        self.ship.spawnProtection = True
-                        self.ship.spawnProtectionTime = time.time()
 
                 for bullet in self.bullets:
                     if asteroid.contains(bullet.position):
@@ -128,8 +127,8 @@ class Asteroids(Game):
 
 
     def death_screen(self):
-        game = Asteroids("Asteroids", self.width, self.height)
-        label = self.myfont.render("Lives:"+str(self.ship.lives), 1, (255, 255, 255))
+        game = Asteroids("Asteroids", self.width, self.height, self.lives, self.score)
+        label = self.myfont.render("Lives:"+str(self.lives), 1, (255, 255, 255))
         label2 = self.myfont.render("You Died!", 1, (255, 255, 255))
         score = self.smallfont.render("Score:" + str(self.score), 1, (255, 255, 255))
         self.screen.blit(label, (self.width * 0.30, self.height * 0.35))
@@ -144,7 +143,19 @@ class Asteroids(Game):
             self.bullets.pop(self.bullets.index(bullet))
         game.runGame()
 
-
-
+    def game_over(self):
+        game = Asteroids("Asteroids", self.width, self.height, 3,0)
+        label2 = self.myfont.render("GAME OVER!", 1, (255, 255, 255))
+        score = self.smallfont.render("Score:" + str(self.score), 1, (255, 255, 255))
+        self.screen.blit(label2, (self.width * 0.35, self.height * 0.40))
+        self.screen.blit(score, (self.width * 0.4, self.height * 0.5))
+        pygame.display.update()
+        pygame.time.wait(2000)
+        pygame.time.wait(500)
+        for asteroids in self.asteroids:
+            self.asteroids.pop(self.asteroids.index(asteroids))
+        for bullet in self.bullets:
+            self.bullets.pop(self.bullets.index(bullet))
+        game.runGame()
 
 

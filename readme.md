@@ -4,12 +4,15 @@
 **0.2** - Also spawns asteroids  
 **0.3** - We have bullets  
 **0.4** - Bullets pop asteroids  
-**0.5** - which brings out smaller asteroids(debris)  
+**0.5** - Which brings out smaller asteroids(debris)
 **0.6** - Death is always an option  
-**0.7** - *Current build*  
+**0.7** - Bullets?
+**0.8** - Timer
+**0.9** - You now have three lives
+**0.10** - *Current build*
 
 ### Features
- 
+Well, it's Asteroids...
 
 ### System Requirements
 

@@ -33,7 +33,7 @@ class Game( ABC ):
     def runGame(self):
         self.ship.spawnProtection = True            #Sets up the player for first spawn when the game starts
         self.ship.spawnProtectionTime = time.time()
-        self.ship.lives = 3
+        #self.ship.lives = 3
         # Our "infinite" loop for the game logic and drawing
         while self.running:
             # WARNING: the following code is very important, if we don't loop
